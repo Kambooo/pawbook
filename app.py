@@ -9,10 +9,14 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "pawbook-local-secret")
 
 # ── Database (PostgreSQL via DATABASE_URL env var) ────────────────────────
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+db_url = os.environ.get(
     "DATABASE_URL",
     "postgresql://pawbook:pawbook123@db:5432/pawbook"
 )
+# Render provides postgres:// but SQLAlchemy 2 needs postgresql://
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # ── Local file uploads (replaces S3 for local Docker run) ─────────────────
@@ -213,4 +217,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))

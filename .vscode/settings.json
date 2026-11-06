@@ -1,0 +1,20 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": false
+                }
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "dpg-dbmq19s9v7es73af3pq0-a.frankfurt-postgres.render.com",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "pawbook-render",
+            "database": "pawbook_apr5",
+            "username": "pawbook_apr5_user"
+        }
+    ]
+}
